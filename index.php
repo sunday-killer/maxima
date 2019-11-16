@@ -9,6 +9,7 @@ require_once 'config/init.php';
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Главная</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="public/dist/css/materialize.min.css">
   <link rel="stylesheet" href="public/dist/css/all.css">
 </head>
@@ -86,6 +87,34 @@ require_once 'config/init.php';
       >Отправить</button>
     </div>
   </form>
+
+  <table class="highlight">
+    <thead>
+      <tr class="red lighten-2">
+        <th>Наименование</th>
+        <th>Цена</th>
+        <th>Описание</th>
+        <th>Характеристики</th>
+        <th>Редактирование</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+          v-for="(product, id) in productsList"
+          :key="id"
+      >
+        <td>{{product.name}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.description}}</td>
+        <td>{{product.details}}</td>
+        <td>
+          <button class="waves-effect waves-light btn-small blue lighten-2"><i class="material-icons small">create</i></button>
+          <button class="waves-effect waves-light btn-small red lighten-2"><i class="material-icons small">delete_forever</i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
 </main>
 
 

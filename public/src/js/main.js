@@ -8,6 +8,8 @@ new Vue({
     price: 0,
     description: '',
     details: '',
+    productsList: {},
+    error: null,
     isLoading: false
   },
   validations: {
@@ -31,6 +33,8 @@ new Vue({
         details: this.details
       }
 
+      this.isLoading = true;
+
       $.ajax({
         url: PATH + 'ajax/createProduct.php',
         type: 'POST',
@@ -38,9 +42,27 @@ new Vue({
         data: (formData),
         success: data => {
           console.log(data)
+          this.isLoading = false;
         },
         error (err) {
           console.error(err)
+          this.error = err;
+        }
+      });
+    },
+    getProductList () {
+      this.isLoading = true;
+      $.ajax({
+        url: PATH + 'ajax/getProductsList.php',
+        type: 'POST',
+        dataType: 'JSON',
+        success: data => {
+          this.productsList = data;
+          this.isLoading = false;
+        },
+        error (err) {
+          console.error(err)
+          this.error = err;
         }
       });
     },
@@ -52,6 +74,9 @@ new Vue({
     },
     isInvalid () {
       return !this.$v.name.$error || !this.$v.price.$error || !this.$v.description.$error || !this.$v.details.$error
-    }
+    },
+  },
+  mounted() {
+    this.getProductList();
   }
 })
