@@ -45,6 +45,13 @@ new Vue({
           success: data => {
             console.log(data)
             this.isLoading = false;
+            Vue.set(this.productsList, data, {
+              name: this.name,
+              price: +this.price,
+              description: this.description,
+              details: this.details
+            });
+            this.clearForm();
           },
           error (err) {
             console.error(err)
@@ -60,16 +67,24 @@ new Vue({
           data: (formData),
           success: data => {
             console.log(data)
+            Vue.set(this.productsList, this.editableProductId, {
+              name: this.name,
+              price: +this.price,
+              description: this.description,
+              details: this.details
+            });
+            this.clearForm();
+            this.editableProductId = null;
             this.isLoading = false;
           },
           error (err) {
             console.error(err)
             this.error = err;
+            this.clearForm();
+            this.editableProductId = null;
           }
         });
       }
-
-
     },
     getProductList () {
       this.isLoading = true;
@@ -93,8 +108,8 @@ new Vue({
         text: "Это действие нельзя будет отменить!",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
         confirmButtonText: 'Да, удаляем!',
         cancelButtonText: 'Пожалуй не надо!'
       }).then((result) => {
@@ -133,6 +148,13 @@ new Vue({
         M.textareaAutoResize(this.$refs.description);
         M.textareaAutoResize(this.$refs.details);
       }, 0)
+    },
+    clearForm () {
+      this.name = '';
+      this.price = 0;
+      this.description = '';
+      this.details = '';
+      this.$v.$reset();
     },
     status(validation) {
       return {
