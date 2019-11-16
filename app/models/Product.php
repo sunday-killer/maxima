@@ -4,10 +4,6 @@ use RedBeanPHP\R;
 
 class Product extends AppModel
 {
-  public function __construct()
-  {
-    \core\Db::instance();
-  }
 
   public function create($name, $description)
   {
