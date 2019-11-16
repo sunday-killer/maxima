@@ -9,15 +9,16 @@ const   gulp = require("gulp"),
         sass = require('gulp-sass'),
         sourcemaps = require("gulp-sourcemaps");
 
+const src = './public/src/',
+      dist = './public/dist/';
+
 const cssFiles = [
     "./node_modules/normalize.css/normalize.css",
-    "./src/scss/main.scss"
+    src + "scss/main.scss"
 ];
 
 const jsFiles = [
-    // "./src/js/c-header/c-header.js",
-    // "./src/js/main.js",
-    "./src/js/main.js",
+    src + "js/main.js",
 ];
 
 
@@ -34,7 +35,7 @@ function styles() {
                     level: 2
                 }))
                 .pipe(sourcemaps.write())
-                .pipe(gulp.dest("./dist/css"))
+                .pipe(gulp.dest(dist + "css"))
                 // .pipe(browserSync.stream());
 }
 
@@ -45,7 +46,7 @@ function scripts() {
                     toplevel: true
                 }))
                 // .pipe(concat("all.js"))
-                .pipe(gulp.dest("./dist/js"))
+                .pipe(gulp.dest(dist + "js"))
                 // .pipe(browserSync.stream());
 }
 
@@ -60,8 +61,8 @@ function watch() {
     //         baseDir: "./"
     //     }
     // });
-    gulp.watch('./src/scss/**/*.scss', styles);
-    gulp.watch('./src/js/**/*.js', scripts);
+    gulp.watch(src + 'scss/**/*.scss', styles);
+    gulp.watch(src + 'js/**/*.js', scripts);
     // gulp.watch('./*.html', browserSync.reload);
 }
 
