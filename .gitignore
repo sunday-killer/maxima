@@ -1,3 +1,4 @@
 /vendor/composer
 /vendor/gabordemooij
 /.idea
+/node_modules
