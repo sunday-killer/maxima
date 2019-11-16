@@ -11,6 +11,7 @@ require_once 'config/init.php';
   <title>Главная</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="public/dist/css/materialize.min.css">
+  <link rel="stylesheet" href="public/dist/css/sweetalert2.min.css">
   <link rel="stylesheet" href="public/dist/css/all.css">
 </head>
 <body>
@@ -24,7 +25,7 @@ require_once 'config/init.php';
 </nav>
 
 <main class="container" id="app">
-  <form class="form" @submit.prevent="createProduct">
+  <form class="form" @submit.prevent="saveProduct">
     <div class="row">
 
       <div class="input-field col s6">
@@ -57,6 +58,7 @@ require_once 'config/init.php';
       <div class="input-field col s12">
         <textarea
             id="description"
+            ref="description"
             class="materialize-textarea validate"
             v-model="$v.description.$model"
             :class="status($v.description)"
@@ -68,6 +70,7 @@ require_once 'config/init.php';
       <div class="input-field col s12">
         <textarea
             id="details"
+            ref="details"
             class="materialize-textarea validate"
             v-model="$v.details.$model"
             :class="status($v.details)"
@@ -84,7 +87,7 @@ require_once 'config/init.php';
         name="send_form"
         class="waves-effect waves-light btn"
         :disabled="$v.name.$error || $v.price.$error || $v.description.$error || $v.details.$error"
-      >Отправить</button>
+      >Сохранить</button>
     </div>
   </form>
 
@@ -108,8 +111,20 @@ require_once 'config/init.php';
         <td>{{product.description}}</td>
         <td>{{product.details}}</td>
         <td>
-          <button class="waves-effect waves-light btn-small blue lighten-2"><i class="material-icons small">create</i></button>
-          <button class="waves-effect waves-light btn-small red lighten-2"><i class="material-icons small">delete_forever</i></button>
+          <button
+              type="button"
+              class="waves-effect waves-light btn-small blue lighten-2"
+              @click="updateProduct(id)"
+          >
+            <i class="material-icons small">create</i>
+          </button>
+          <button
+              type="button"
+              class="waves-effect waves-light btn-small red lighten-2"
+              @click="deleteProduct(id)"
+          >
+            <i class="material-icons small">delete_forever</i>
+          </button>
         </td>
       </tr>
     </tbody>
@@ -127,6 +142,7 @@ require_once 'config/init.php';
 <script src="public/dist/js/vuelidate.min.js"></script>
 <script src="public/dist/js/validators.min.js"></script>
 <script src="public/dist/js/jquery.min.js"></script>
+<script src="public/dist/js/sweetalert2.min.js"></script>
 <script src="public/dist/js/main.js"></script>
 
 </body>

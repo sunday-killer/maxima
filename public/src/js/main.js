@@ -10,7 +10,8 @@ new Vue({
     details: '',
     productsList: {},
     error: null,
-    isLoading: false
+    isLoading: false,
+    editableProductId: null
   },
   validations: {
     name: { required },
@@ -19,7 +20,7 @@ new Vue({
     details: { required },
   },
   methods: {
-    createProduct () {
+    saveProduct () {
 
       if (!this.isInvalid()) {
         this.$v.$touch();
@@ -35,20 +36,40 @@ new Vue({
 
       this.isLoading = true;
 
-      $.ajax({
-        url: PATH + 'ajax/createProduct.php',
-        type: 'POST',
-        dataType: 'JSON',
-        data: (formData),
-        success: data => {
-          console.log(data)
-          this.isLoading = false;
-        },
-        error (err) {
-          console.error(err)
-          this.error = err;
-        }
-      });
+      if (this.editableProductId === null) {
+        $.ajax({
+          url: PATH + 'ajax/createProduct.php',
+          type: 'POST',
+          dataType: 'JSON',
+          data: (formData),
+          success: data => {
+            console.log(data)
+            this.isLoading = false;
+          },
+          error (err) {
+            console.error(err)
+            this.error = err;
+          }
+        });
+      } else {
+        formData["id"] = this.editableProductId;
+        $.ajax({
+          url: PATH + 'ajax/updateProduct.php',
+          type: 'POST',
+          dataType: 'JSON',
+          data: (formData),
+          success: data => {
+            console.log(data)
+            this.isLoading = false;
+          },
+          error (err) {
+            console.error(err)
+            this.error = err;
+          }
+        });
+      }
+
+
     },
     getProductList () {
       this.isLoading = true;
@@ -65,6 +86,53 @@ new Vue({
           this.error = err;
         }
       });
+    },
+    deleteProduct(id) {
+      Swal.fire({
+        title: 'Вы уверены, что хотите удалить?',
+        text: "Это действие нельзя будет отменить!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Да, удаляем!',
+        cancelButtonText: 'Пожалуй не надо!'
+      }).then((result) => {
+        if (result.value) {
+          $.ajax({
+            url: PATH + 'ajax/deleteProduct.php',
+            type: 'POST',
+            dataType: 'JSON',
+            data: ({id}),
+            success: data => {
+              console.log(data);
+              Vue.delete(this.productsList, id);
+              Swal.fire(
+                'Удалено!',
+                '',
+                'success'
+              )
+            },
+            error (err) {
+              console.error(err)
+              this.error = err;
+            }
+          });
+        }
+      })
+    },
+    updateProduct(id) {
+      this.editableProductId = id;
+      this.name = this.productsList[id]["name"];
+      this.price = this.productsList[id]["price"];
+      this.description = this.productsList[id]["description"];
+      this.details = this.productsList[id]["details"];
+
+      setTimeout(() => {
+        M.updateTextFields();
+        M.textareaAutoResize(this.$refs.description);
+        M.textareaAutoResize(this.$refs.details);
+      }, 0)
     },
     status(validation) {
       return {
