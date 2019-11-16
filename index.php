@@ -88,6 +88,14 @@ require_once 'config/init.php';
         class="waves-effect waves-light btn"
         :disabled="$v.name.$error || $v.price.$error || $v.description.$error || $v.details.$error"
       >Сохранить</button>
+
+      <button
+        type="button"
+        name="send_form"
+        class="waves-effect waves-light btn"
+        @click="clearForm"
+      >Очистить форму</button>
+
     </div>
   </form>
 

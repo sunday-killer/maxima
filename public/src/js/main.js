@@ -74,7 +74,6 @@ new Vue({
               details: this.details
             });
             this.clearForm();
-            this.editableProductId = null;
             this.isLoading = false;
           },
           error (err) {
@@ -154,7 +153,12 @@ new Vue({
       this.price = 0;
       this.description = '';
       this.details = '';
+      this.editableProductId = null;
       this.$v.$reset();
+      setTimeout(() => {
+        M.textareaAutoResize(this.$refs.description);
+        M.textareaAutoResize(this.$refs.details);
+      });
     },
     status(validation) {
       return {
