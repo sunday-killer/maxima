@@ -45,4 +45,9 @@ class Product extends AppModel
     return R::trash($product);
   }
 
+  public function findByName($name)
+  {
+    return R::findOne('product', ' name LIKE ? LIMIT 1', [ $name ]);
+  }
+
 }
