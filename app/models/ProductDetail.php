@@ -33,6 +33,12 @@ class ProductDetail extends AppModel
   public function read($id)
   {
     $id = (int)$id;
+    return R::load('productdetail', $id);
+  }
+
+  public function get($id)
+  {
+    $id = (int)$id;
     return R::getAssoc('
     SELECT
     pd.id, pd.product_id, p.name, p.description, pd.price, pd.details
@@ -62,7 +68,7 @@ class ProductDetail extends AppModel
     $description = $this->safe($description);
     $details = $this->safe($details);
 
-    $productDetail = R::load('productdetail', (int)$id);
+    $productDetail = $this->read($id);
 
     $instance_of_product = new Product();
     $product = $instance_of_product->findByName($name);
@@ -80,6 +86,12 @@ class ProductDetail extends AppModel
     $productDetail->details = $details;
 
     return R::store($productDetail);
+  }
+
+  public function delete($id)
+  {
+    $productDetail = $this->read($id);
+    return R::trash($productDetail);
   }
 
 }
