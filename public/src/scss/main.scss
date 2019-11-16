@@ -1,0 +1,24 @@
+.form {
+  margin: 20px 0;
+}
+
+.response {
+  min-height: 100px;
+  background-color: #e9e9e9;
+  border: 2px solid #c6c6c6;
+  padding: 5px;
+}
+
+input[type=text].error, input[type=text].error:not(.browser-default):focus:not([readonly]), input[type=text].error.valid:not(.browser-default):focus:not([readonly]), input[type=text].error.valid:not(.browser-default) {
+  border-bottom: 2px solid #F44336;
+  color:#F44336;
+  ~label {
+    color:#F44336
+  }
+}
+
+.input-field .helper-text {
+  &.invalid {
+    color:#F44336
+  }
+}
