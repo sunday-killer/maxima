@@ -6,6 +6,10 @@
     }
   },
   "require": {
-    "gabordemooij/redbean": "dev-master"
+    "gabordemooij/redbean": "dev-master",
+    "rakit/validation": "^1.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.5"
   }
 }
