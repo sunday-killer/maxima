@@ -43,8 +43,16 @@ new Vue({
           dataType: 'JSON',
           data: (formData),
           success: data => {
-            console.log(data)
+            if (data.error !== undefined && Object.keys(data.error).length > 0) {
+              for (let fieldName in data.error) {
+                this.error = data.error[fieldName]
+              }
+              this.$v.$touch();
+              return;
+            }
+
             this.isLoading = false;
+
             Vue.set(this.productsList, data, {
               name: this.name,
               price: +this.price,
@@ -172,5 +180,10 @@ new Vue({
   },
   mounted() {
     this.getProductList();
+  },
+  watch: {
+    error () {
+      console.log(this.error)
+    }
   }
 })
