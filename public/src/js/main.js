@@ -22,7 +22,7 @@ new Vue({
   methods: {
     saveProduct () {
 
-      if (!this.isInvalid()) {
+      if (this.isInvalid()) {
         this.$v.$touch();
         return;
       }
